@@ -1,0 +1,17 @@
+<h3>List of tests</h3>
+<div ng-repeat="item in list">
+    <a href="/#/{{item.id}}">{{item.data}}</a>
+</div>
+
+<h3>New test</h3>
+<div>
+    <div>
+        <label for="id">id</label>
+        <input id="id" ng-model="form.id"/>
+    </div>
+    <div>
+        <label for="data">data</label>
+        <input id="data" ng-model="form.data"/>
+    </div>
+    <button ng-click="save()">Save</button>
+</div>

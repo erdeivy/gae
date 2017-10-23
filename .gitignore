@@ -3,3 +3,6 @@ target
 local_db.bin
 *.iml
 /bin
+/.classpath
+/.project
+/.settings

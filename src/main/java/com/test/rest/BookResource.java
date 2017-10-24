@@ -7,6 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.test.dao.BookDAOImpl;
@@ -24,8 +25,8 @@ public class BookResource {
 	}
 
 	@GET
-	public Response list() {
-		return Response.ok(this.bookDAO.list()).build();
+	public Response list(@QueryParam("filter") String filter) {
+		return Response.ok(filter == null ? this.bookDAO.list() : this.bookDAO.filteredlist(filter)).build();
 	}
 
 	@GET
@@ -40,7 +41,7 @@ public class BookResource {
 	
 	@GET
 	@Path("/filter/{filter}")
-	public Response getFiltered(@PathParam("filter") String filter) {
+	public Response getFiltered(@QueryParam("filter") String filter) {
 		return Response.ok(this.bookDAO.filteredlist(filter)).build();
 	}
 

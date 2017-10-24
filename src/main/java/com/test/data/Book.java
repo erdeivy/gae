@@ -11,6 +11,7 @@ public class Book {
 	@Id
 	private Long id;
 	private String name;
+	@Index
 	private String author;
 	private Integer year;
 	private String gender;

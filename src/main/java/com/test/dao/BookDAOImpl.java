@@ -17,6 +17,7 @@ import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.appengine.api.search.StatusCode;
 import com.googlecode.objectify.ObjectifyService;
 import com.test.data.Book;
+import com.test.data.BookComparator;
 
 public class BookDAOImpl implements IBookDAO {
 
@@ -24,7 +25,7 @@ public class BookDAOImpl implements IBookDAO {
 
 	@Override
 	public List<Book> list() {
-		return ObjectifyService.ofy().load().type(Book.class).list();
+		return ObjectifyService.ofy().load().type(Book.class).order("author").list();
 	}
 
 	/**
@@ -32,18 +33,24 @@ public class BookDAOImpl implements IBookDAO {
 	 */
 	@Override
 	public List<Book> filteredlist(String filter) {
-		LOGGER.info("Retrieving list of beans with filter: " + filter);
-		List<Long> ids = new ArrayList<Long>();
+		List<Book> list = null;
+		if (filter != null && !filter.isEmpty()) {
+			LOGGER.info("Retrieving list of beans with filter: " + filter);
+			List<Long> ids = new ArrayList<Long>();
 
-		Query query = Query.newBuilder().build("tokenized_text" + "=" + filter);
-		Index booksDocIndex = getBookDocumentIndex();
-		Results<ScoredDocument> books = booksDocIndex.search(query);
-		LOGGER.info("Retrieved " + books.getNumberReturned() + " results");
-		for (ScoredDocument docs : books) {
-			ids.add(Long.valueOf(docs.getId()));
+			Query query = Query.newBuilder().build("tokenized_text" + "=" + filter);
+			Index booksDocIndex = getBookDocumentIndex();
+			Results<ScoredDocument> books = booksDocIndex.search(query);
+			LOGGER.info("Retrieved " + books.getNumberReturned() + " results");
+			for (ScoredDocument docs : books) {
+				ids.add(Long.valueOf(docs.getId()));
+			}
+			list = new ArrayList<Book>(ObjectifyService.ofy().load().type(Book.class).ids(ids).values());
+			list.sort(new BookComparator());
+		} else {
+			list = list();
 		}
-
-		return new ArrayList<Book>(ObjectifyService.ofy().load().type(Book.class).ids(ids).values());
+		return list;
 	}
 
 	@Override
@@ -73,7 +80,7 @@ public class BookDAOImpl implements IBookDAO {
 		bookSubstrings.addAll(buildAllSubstrings(authorName));
 		String combinedString = combine(bookSubstrings, " ");
 		// The input for this looks like "CHR CHRI CHRIS HRI HRIS" etc...
-		LOGGER.info("Saving document with id("+id+"), token=("+combinedString+")");
+		LOGGER.info("Saving document with id(" + id + "), token=(" + combinedString + ")");
 		createBookDocument(id, combinedString);
 	}
 

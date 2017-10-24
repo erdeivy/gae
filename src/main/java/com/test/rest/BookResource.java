@@ -39,12 +39,6 @@ public class BookResource {
 		return Response.ok(book).build();
 	}
 	
-	@GET
-	@Path("/filter/{filter}")
-	public Response getFiltered(@QueryParam("filter") String filter) {
-		return Response.ok(this.bookDAO.filteredlist(filter)).build();
-	}
-
 	@POST
 	@Consumes("application/json;charset=utf-8")
 	public Response save(Book book) {

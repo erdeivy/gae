@@ -1,0 +1,20 @@
+<h3>Books</h3>
+<div>
+    <label for="filter">Filter:</label>
+    <input id="filter" ng-model="filterContent" ng-change="filter()"/>
+</div>
+<table>
+	<tr>
+		<td><b>#</b></td>
+		<td><b>Name</b></td>
+		<td><b>Author</b></td>
+		<td><b>Delete</b></td>
+	</tr>
+  	<tr ng-repeat="item in booksList">
+  		<td>{{ $index + 1 }}</td>
+    	<td><a href="/#/books/{{item.id}}">{{item.name}}</a></td>
+    	<td>{{ item.author }}</td>
+    	<td><button class="btn btn-sm btn-danger" ng-confirm-click="Are you sure to delete this book?" confirmed-click="deleteBook(item.id)">Delete</button></td>
+  	</tr>
+</table>
+<a href="/#/books/new">New book</a>

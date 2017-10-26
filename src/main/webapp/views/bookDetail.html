@@ -1,0 +1,33 @@
+<h3>New Book</h3>
+<form name="bookForm" class="form-horizontal" ng-submit="submitForm()" novalidate>
+    <div class="form-group">
+        <label class="col-sm-1 control-label">Name</label>
+        <div class="col-sm-2">
+        	<input type="text" class="form-control" name="name" ng-model="bookDetail.name" required ng-disabled="isEditingMode()" placeholder="Enter here the book name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 control-label">Author</label>
+        <div class="col-sm-2">
+        	<input type="text" class="form-control" name="author" ng-model="bookDetail.author" required ng-disabled="isEditingMode()" placeholder="Enter here the author name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 control-label">Year</label>
+        <div class="col-sm-2">
+        	<input type="number" min="0" max="3000" class="form-control" name="year" ng-model="bookDetail.year" required ng-disabled="isEditingMode()" placeholder="Enter here the book year">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 control-label">Gender</label>
+        <div class="col-sm-2">
+        	<input type="text" class="form-control" name="gender" ng-model="bookDetail.gender" required ng-disabled="isEditingMode()" placeholder="Enter here the book gender">
+        </div>
+    </div>
+    <div class="form-group">
+	    <div class="col-sm-3">
+	        <button type="submit" class="btn btn-primary" ng-disabled="disableButtons || bookForm.$invalid || isEditingMode()">Accept</button>
+	        <button class="btn btn-warning" ng-click="goBack()" ng-disabled="disableButtons">Cancel</button>
+	    </div>
+    </div>
+</form>

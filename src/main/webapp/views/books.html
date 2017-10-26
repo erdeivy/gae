@@ -1,0 +1,34 @@
+<h3>Books</h3>
+<div>
+	<div class="col-sm-1 text-right">
+    	<label for="filter">Filter:</label>
+    </div>
+    <div class="col-sm-2">
+    	<input id="filter" class="form-control" ng-model="filterContent" ng-change="filter()" placeholder="Type here if you want to search any book"/>
+    </div>
+    <div class="col-sm-1">
+    	<input type="button" class="btn btn-sm btn-success" onclick="location.href='/#/books/new';" value="New book" />
+    </div>
+</div>
+<table class="table">
+	<tr>
+		<td><b>#</b></td>
+		<td><b>Name</b></td>
+		<td><b>Author</b></td>
+		<td><b>Delete</b></td>
+	</tr>
+    <tr ng-if="dataLoading">
+  		<td colspan="4">Loading...</td>
+  	</tr>
+  	<tr>
+    	<td colspan="4" ng-show="!dataLoading && (booksList=='undefined' ||booksList=='null' || booksList.length==0)">
+            No books.                
+        </td>
+    </tr>
+  	<tr ng-repeat="item in booksList">
+  		<td>{{ $index + 1 }}</td>
+    	<td><a href="/#/books/{{item.id}}">{{item.name}}</a></td>
+    	<td>{{ item.author }}</td>
+    	<td><button class="btn btn-sm btn-danger" ng-confirm-click="Are you sure to delete this book?" confirmed-click="deleteBook(item.id)">Delete</button></td>
+  	</tr>
+</table>

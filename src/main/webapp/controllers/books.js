@@ -6,6 +6,8 @@ angular.module('books')
         $scope.loadBooks = function() {
             books.booksList(function (booksList) {
                 $scope.booksList = booksList.data;
+            }).finally(function () {
+                $scope.dataLoading = false;
             });
         }
 
@@ -24,7 +26,7 @@ angular.module('books')
                 $scope.booksList = booksList.data;
             });
         }
-
+        $scope.dataLoading = true;
         $scope.bookForm = {};
         $scope.filterContent = "";
         $scope.loadBooks();

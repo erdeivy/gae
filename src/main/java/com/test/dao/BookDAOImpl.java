@@ -1,6 +1,7 @@
 package com.test.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -46,7 +47,7 @@ public class BookDAOImpl implements IBookDAO {
 				ids.add(Long.valueOf(docs.getId()));
 			}
 			list = new ArrayList<Book>(ObjectifyService.ofy().load().type(Book.class).ids(ids).values());
-			list.sort(new BookComparator());
+			Collections.sort(list, new BookComparator());
 		} else {
 			list = list();
 		}

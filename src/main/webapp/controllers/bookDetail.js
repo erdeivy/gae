@@ -5,6 +5,7 @@ angular.module('bookDetail')
     	
     	$scope.submitForm = function() {
     		if ($scope.bookForm.$valid) {
+    			$scope.disableButtons = true;
     			bookDetail.saveBook($scope.bookDetail, function() {
     				$scope.goBack();
                 });
@@ -36,4 +37,6 @@ angular.module('bookDetail')
     	}else{
     		$scope.loadSingleBook($routeParams.bookParam);
     	}
+    	
+    	$scope.disableButtons = false;
     });
